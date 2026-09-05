@@ -1,0 +1,7 @@
+node_modules/
+.env
+server/uploads/*.zip
+server/uploads/*.rar
+server/uploads/*.7z
+server/uploads/*.tar.gz
+*.log

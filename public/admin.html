@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel — FB Report Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+  <!-- Login Screen -->
+  <div id="loginScreen" class="login-screen">
+    <div class="login-card">
+      <div class="login-card__header">
+        <span class="login-card__logo">⚡</span>
+        <h1>Admin Panel</h1>
+        <p>FB Report Store Management</p>
+      </div>
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label for="loginUser">Username</label>
+          <input type="text" id="loginUser" placeholder="admin" required>
+        </div>
+        <div class="form-group">
+          <label for="loginPass">Password</label>
+          <input type="password" id="loginPass" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn btn--primary btn--full" id="loginBtn">Sign In</button>
+        <p class="login-error" id="loginError"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Dashboard -->
+  <div id="dashboard" class="dashboard" style="display:none">
+    <!-- Top Bar -->
+    <header class="topbar">
+      <div class="topbar__left">
+        <span class="topbar__logo">⚡</span>
+        <span class="topbar__title">FB Report <span class="text-coral">Admin</span></span>
+      </div>
+      <div class="topbar__right">
+        <span class="topbar__status" id="connectionStatus">● Connected</span>
+        <button class="btn btn--ghost btn--sm" onclick="logout()">Logout</button>
+      </div>
+    </header>
+
+    <!-- Stats Row -->
+    <div class="stats-row" id="statsRow">
+      <div class="stat-card">
+        <div class="stat-card__value" id="statTotal">0</div>
+        <div class="stat-card__label">Total Orders</div>
+      </div>
+      <div class="stat-card stat-card--warning">
+        <div class="stat-card__value" id="statNeedsAttention">0</div>
+        <div class="stat-card__label">Needs Attention</div>
+      </div>
+      <div class="stat-card stat-card--success">
+        <div class="stat-card__value" id="statApproved">0</div>
+        <div class="stat-card__label">Approved</div>
+      </div>
+      <div class="stat-card stat-card--info">
+        <div class="stat-card__value" id="statDelivered">0</div>
+        <div class="stat-card__label">Delivered</div>
+      </div>
+      <div class="stat-card stat-card--revenue">
+        <div class="stat-card__value" id="statRevenue">$0</div>
+        <div class="stat-card__label">Revenue</div>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters-row">
+      <div class="filter-tabs" id="filterTabs">
+        <button class="filter-tab active" data-status="">All</button>
+        <button class="filter-tab" data-status="payment_submitted">Submitted</button>
+        <button class="filter-tab" data-status="verified">Verified</button>
+        <button class="filter-tab" data-status="approved">Approved</button>
+        <button class="filter-tab" data-status="delivered">Delivered</button>
+        <button class="filter-tab" data-status="rejected">Rejected</button>
+        <button class="filter-tab" data-status="pending_payment">Pending</button>
+      </div>
+      <button class="btn btn--ghost btn--sm" onclick="fetchOrders()">↻ Refresh</button>
+    </div>
+
+    <!-- Orders Table -->
+    <div class="table-wrap">
+      <table class="orders-table" id="ordersTable">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Email</th>
+            <th>Crypto</th>
+            <th>Amount</th>
+            <th>TX Hash</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="ordersBody">
+          <tr>
+            <td colspan="8" class="empty-state">Loading orders...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Order Detail Modal -->
+  <div id="orderModal" class="modal" style="display:none">
+    <div class="modal__overlay" onclick="closeModal()"></div>
+    <div class="modal__content">
+      <div class="modal__header">
+        <h2>Order Details</h2>
+        <button class="modal__close" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal__body" id="modalBody">
+        <!-- Populated dynamically -->
+      </div>
+      <div class="modal__footer" id="modalFooter">
+        <!-- Action buttons -->
+      </div>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
